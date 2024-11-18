@@ -24,11 +24,11 @@ const LoginScreen = () => {
         const response = await api.get('/users'); // Obtiene todos los usuarios del API
         if (response.status === 200) {
           const users = response.data;
-          const user = users.find((u: { email: string; password: string }) => u.email === email && u.password === password);
+          const user = users.find((u: { username: string; password: string }) => u.username === email && u.password === password);
           if (user) {
             setUser(user); // Almacena el usuario en el contexto
             alert('Éxito! Inicio de sesión exitoso');
-            navigation.navigate('profile'); // Redirige a la pantalla de perfil
+            navigation.navigate('profile');// Redirige a la pantalla de perfil
           } else {
             alert('Error, Credenciales incorrectas');
           }
@@ -48,12 +48,11 @@ const LoginScreen = () => {
         placeholder="Correo Electrónico"
         onChangeText={(value) => {
           setEmail(value);
-          validate('email', value);
+          validate('username', value);
         }}
         value={email}
       />
-      {errors.email && <Text style={styles.error}>{errors.email}</Text>}
-      
+      {errors.username && <Text style={styles.error}>{errors.username}</Text>}
       <InputField
         placeholder="Contraseña"
         onChangeText={(value) => {
@@ -61,15 +60,16 @@ const LoginScreen = () => {
           validate('password', value);
         }}
         value={password}
-        secureTextEntry
       />
       {errors.password && <Text style={styles.error}>{errors.password}</Text>}
-      
-      <ButtonSubmit onPress={handleLogin} title='Iniciar Sesión' />
+      <ButtonSubmit
+        title="Iniciar Sesión"
+        onPress={handleLogin}
+        disabled={errors.email || errors.password}
+      />
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

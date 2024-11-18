@@ -5,6 +5,7 @@ type ValidationErrors = {
   lastname?: string;
   id?: string;
   email?: string;
+  username?: string;
   password?: string;
 };
 
@@ -33,7 +34,19 @@ const useValidation = () => {
         error = "La cédula debe ser un número";
       }
     }
-
+    
+    if (name === "username") {
+      if (!value) {
+        error = "El nombre de usuario es obligatorio";
+      } else if (value.length < 3) {
+        error = "El nombre de usuario debe tener al menos 3 caracteres";
+      } else if (value.length > 20) {
+        error = "El nombre de usuario no debe exceder los 20 caracteres";
+      } else if (!/^[a-zA-Z0-9_]*$/.test(value)) {
+        error =
+          "El nombre de usuario solo puede contener letras, números y guiones bajos";
+      }
+    }
     if (name === "email") {
       if (!value) {
         error = "El correo es obligatorio";
