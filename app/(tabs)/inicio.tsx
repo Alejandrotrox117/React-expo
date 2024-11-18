@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet,ToastAndroid } from 'react-native';
 import InputField from '@/components/form/input';
 import ButtonSubmit from '@/components/form/button';
 import useValidation from '@/hooks/validate';
@@ -9,14 +9,14 @@ const LoginScreen = () => {
   const [password, setPassword] = useState('');
   
   const { errors, validate } = useValidation(); 
-
+  const axios = require('axios').default;
   const handleLogin = () => {
     validate('email', email);
     validate('password', password);
     
-   
+  
   };
-
+ 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Inicio de Sesión</Text>
@@ -41,7 +41,7 @@ const LoginScreen = () => {
       />
       {errors.password && <Text style={styles.error}>{errors.password}</Text>}
       
-      <ButtonSubmit title="Iniciar Sesión" onPress={handleLogin} />
+      <ButtonSubmit onPress={handleLogin} title='Iniciar Sesión' />
     </View>
   );
 };
