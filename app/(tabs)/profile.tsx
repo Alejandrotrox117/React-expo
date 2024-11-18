@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Switch, ScrollView, Modal, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, StyleSheet, Switch, ScrollView, Modal, TouchableOpacity, TextInput, ImageBackground } from 'react-native';
 
 const ProfileScreen = () => {
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
@@ -13,11 +13,11 @@ const ProfileScreen = () => {
 
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.profileHeader}>
-        <View style={styles.avatar}></View>
-        <Text style={styles.name}>{firstName} {lastName}</Text>
-        <Text style={styles.contact}>{email}</Text>
-      </View>
+        <View style={styles.profileHeader}>
+          <View style={styles.avatar}></View>
+          <Text style={styles.name}>{firstName} {lastName}</Text>
+          <Text style={styles.contact}>{email}</Text>
+        </View>
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Información del Perfil</Text>
         <Text style={styles.info}>Nombres: {firstName}</Text>
@@ -29,21 +29,21 @@ const ProfileScreen = () => {
         </TouchableOpacity>
       </View>
       <View style={styles.row}>
-        <View style={styles.section}>
+        <View style={styles.sectionSmall}>
           <Text style={styles.sectionTitle}>Notifications</Text>
           <Switch
             onValueChange={toggleNotifications}
             value={notificationsEnabled}
           />
         </View>
-        <View style={styles.section}>
+        <View style={styles.sectionSmall}>
           <Text style={styles.sectionTitle}>Language</Text>
           <Text style={styles.sectionContent}>English</Text>
         </View>
-        <View style={styles.section}>
+        <View style={styles.sectionSmall}>
           <Text style={styles.sectionTitle}>Security</Text>
         </View>
-        <View style={styles.section}>
+        <View style={styles.sectionSmall}>
           <Text style={styles.sectionTitle}>Theme</Text>
           <Text style={styles.sectionContent}>Light mode</Text>
         </View>
@@ -110,6 +110,13 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#f5f5f5',
   },
+  banner: {
+    width: '100%',
+    height: 200,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
   profileHeader: {
     alignItems: 'center',
     marginBottom: 20,
@@ -121,11 +128,14 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 5,
     elevation: 5,
+    backgroundImage: `url(.../assets/images/profile-banner.jpg)`, 
+    backgroundSize: 'cover', 
+    backgroundPosition: 'center', 
   },
   avatar: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
+    width: 120,
+    height: 120,
+    borderRadius: 60,
     backgroundColor: '#ccc',
     marginBottom: 10,
   },
@@ -148,7 +158,23 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     elevation: 5,
   },
-  row: { flexDirection: 'row', justifyContent: 'space-around', marginBottom: 20, },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginBottom: 20,
+  },
+  sectionSmall: {
+    flex: 1,
+    marginHorizontal: 5,
+    backgroundColor: '#fff',
+    padding: 20,
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 5,
+  },
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
