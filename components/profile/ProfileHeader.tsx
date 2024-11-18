@@ -1,12 +1,11 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 
-interface ProfileHeaderProps {
+type Props = {
   name: string;
   email: string;
-}
-
-const ProfileHeader: React.FC<ProfileHeaderProps> = ({ name, email }) => {
+};
+const ProfileHeader: React.FC<Props> = ({ name, email }) => {
   return (
     <View style={styles.profileHeader}>
       <Image source={require('@/assets/images/usuario.png')} style={styles.avatar} />
