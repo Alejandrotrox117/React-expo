@@ -53,6 +53,19 @@ export default function TabLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="registro"
+        options={{
+          title: "Registro de Producto",
+          tabBarIcon: ({ color }) => (
+            <Ionicons
+              name="cube"
+              size={24}
+              color={color}
+            />
+          ),
+        }}
+      />
     </Tabs>
     
   );
