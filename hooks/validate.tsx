@@ -1,6 +1,9 @@
 import { useState } from "react";
 
 type ValidationErrors = {
+  firstname?: string;
+  lastname?: string;
+  id?: string;
   email?: string;
   password?: string;
 };
@@ -10,6 +13,26 @@ const useValidation = () => {
 
   const validate = (name: keyof ValidationErrors, value: string) => {
     let error: string | undefined;
+
+    if (name === "firstname") {
+      if (!value) {
+        error = "El nombre es obligatorio";
+      }
+    }
+
+    if (name === "lastname") {
+      if (!value) {
+        error = "El apellido es obligatorio";
+      }
+    }
+
+    if (name === "id") {
+      if (!value) {
+        error = "La cédula es obligatoria";
+      } else if (!/^\d+$/.test(value)) {
+        error = "La cédula debe ser un número";
+      }
+    }
 
     if (name === "email") {
       if (!value) {

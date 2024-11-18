@@ -1,20 +1,44 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet,ToastAndroid } from 'react-native';
+import { View, Text, StyleSheet, Alert, Button } from 'react-native';
 import InputField from '@/components/form/input';
 import ButtonSubmit from '@/components/form/button';
 import useValidation from '@/hooks/validate';
+import api from '@/services/api';
+import { useNavigation } from '@react-navigation/native';
+import { useUser } from '@/components/usuario/UserContext';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  
   const { errors, validate } = useValidation(); 
-  const axios = require('axios').default;
-  const handleLogin = () => {
+  const navigation = useNavigation();
+  const userContext = useUser();
+  const setUser = userContext ? userContext.setUser : () => {};
+
+  const handleLogin = async () => {
     validate('email', email);
     validate('password', password);
-    
-  
+
+    if (!errors.email && !errors.password) {
+      try {
+        const response = await api.get('/users'); // Obtiene todos los usuarios del API
+        if (response.status === 200) {
+          const users = response.data;
+          const user = users.find((u: { email: string; password: string }) => u.email === email && u.password === password);
+          if (user) {
+            setUser(user); // Almacena el usuario en el contexto
+            alert('Éxito! Inicio de sesión exitoso');
+            navigation.navigate('profile'); // Redirige a la pantalla de perfil
+          } else {
+            alert('Error, Credenciales incorrectas');
+          }
+        } else {
+          alert('Error, Error al obtener los usuarios');
+        }
+      } catch (error) {
+        alert('Error, Ocurrió un error al obtener los datos');
+      }
+    }
   };
  
   return (
