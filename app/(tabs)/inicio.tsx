@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Alert, Button } from 'react-native';
+import { View, Text, StyleSheet, Alert} from 'react-native';
 import InputField from '@/components/form/input';
 import ButtonSubmit from '@/components/form/button';
 import useValidation from '@/hooks/validate';
 import api from '@/services/api';
 import { useNavigation } from '@react-navigation/native';
 import { useUser } from '@/components/usuario/UserContext';
+import { ExternalLink } from '@/components/ExternalLink';
+import { ThemedText } from '@/components/ThemedText';
+
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -24,11 +27,11 @@ const LoginScreen = () => {
         const response = await api.get('/users'); // Obtiene todos los usuarios del API
         if (response.status === 200) {
           const users = response.data;
-          const user = users.find((u: { email: string; password: string }) => u.email === email && u.password === password);
+          const user = users.find((u: { username: string; password: string }) => u.username === email && u.password === password);
           if (user) {
             setUser(user); // Almacena el usuario en el contexto
             alert('Éxito! Inicio de sesión exitoso');
-            navigation.navigate('profile'); // Redirige a la pantalla de perfil
+            navigation.navigate('profile');// Redirige a la pantalla de perfil
           } else {
             alert('Error, Credenciales incorrectas');
           }
@@ -40,20 +43,19 @@ const LoginScreen = () => {
       }
     }
   };
-
+ 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Inicio de Sesión</Text>
       <InputField
-        placeholder="Correo Electrónico"
+        placeholder="Usuario"
         onChangeText={(value) => {
           setEmail(value);
-          validate('email', value);
+          validate('username', value);
         }}
         value={email}
       />
-      {errors.email && <Text style={styles.error}>{errors.email}</Text>}
-      
+      {errors.username && <Text style={styles.error}>{errors.username}</Text>}
       <InputField
         placeholder="Contraseña"
         onChangeText={(value) => {
@@ -61,15 +63,22 @@ const LoginScreen = () => {
           validate('password', value);
         }}
         value={password}
-        secureTextEntry
       />
       {errors.password && <Text style={styles.error}>{errors.password}</Text>}
-      
-      <ButtonSubmit title="Iniciar Sesión" onPress={handleLogin} />
+      <ButtonSubmit
+        title="Iniciar Sesión"
+        onPress={handleLogin}
+        disabled={errors.email || errors.password}
+      />
+       <ExternalLink href="https://fakestoreapi.com/users">
+          <ThemedText type="link">Ver Usuarios en API</ThemedText>
+        </ExternalLink>
+        <Text>Usuario predeterminado: johnd</Text>
+        <Text>Usuario password: m38rmF$</Text>
+
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

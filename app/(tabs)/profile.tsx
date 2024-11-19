@@ -19,7 +19,8 @@ const ProfileScreen = () => {
   const toggleNotifications = () => setNotificationsEnabled(previousState => !previousState);
 
   if (!user) {
-    return <Text>Cargando...</Text>;
+    return <Text>¡Debes iniciar sesión para acceder a tu perfil!</Text>
+    
   }
 
   return (
