@@ -6,11 +6,14 @@ type props = {
     onChangeText: (text: string) => void;
     value: string;
     secureTextEntry?: boolean;
+    style: any;
+    keyboardType?: string;
+    autoCapitalize?: string;
 
 }
 
 
-const InputField = ({ placeholder, onChangeText, value, secureTextEntry }:props) => {
+const InputField = ({ placeholder, onChangeText, value, secureTextEntry ,style,keyboardType,autoCapitalize}:props) => {
   return (
     <TextInput
       style={styles.input}
@@ -18,6 +21,7 @@ const InputField = ({ placeholder, onChangeText, value, secureTextEntry }:props)
       onChangeText={onChangeText}
       value={value}
       secureTextEntry={secureTextEntry}
+     
     />
   );
 };

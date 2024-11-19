@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import {
   View,
-  TextInput,
   Button,
   StyleSheet,
   Text,
   TouchableOpacity,
 } from 'react-native';
+import InputField from '@/components/form/input';
+import ButtonSubmit from '@/components/form/button';
 import useUserFormValidation from '@/hooks/validarFormulario';
 
 const UserForm = ({ onRegisterUser, onClose }) => {
@@ -37,7 +38,7 @@ const UserForm = ({ onRegisterUser, onClose }) => {
   return (
     <View style={styles.form}>
       <Text style={styles.title}>Registrar Usuario</Text>
-      <TextInput
+      <InputField
         style={[styles.input, errors.name && styles.inputError]}
         placeholder="Nombre completo"
         value={name}
@@ -48,7 +49,7 @@ const UserForm = ({ onRegisterUser, onClose }) => {
       />
       {errors.name && <Text style={styles.errorText}>{errors.name}</Text>}
 
-      <TextInput
+      <InputField
         style={[styles.input, errors.email && styles.inputError]}
         placeholder="Correo electrónico"
         value={email}
@@ -61,7 +62,7 @@ const UserForm = ({ onRegisterUser, onClose }) => {
       />
       {errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
 
-      <TextInput
+      <InputField
         style={[styles.input, errors.role && styles.inputError]}
         placeholder="Rol (e.g., Administrador)"
         value={role}
@@ -72,7 +73,7 @@ const UserForm = ({ onRegisterUser, onClose }) => {
       />
       {errors.role && <Text style={styles.errorText}>{errors.role}</Text>}
 
-      <TextInput
+      <InputField
         style={[styles.input, errors.password && styles.inputError]}
         placeholder="Contraseña"
         value={password}
@@ -84,7 +85,7 @@ const UserForm = ({ onRegisterUser, onClose }) => {
       />
       {errors.password && <Text style={styles.errorText}>{errors.password}</Text>}
 
-      <TextInput
+      <InputField
         style={[styles.input, errors.confirmPassword && styles.inputError]}
         placeholder="Confirmar contraseña"
         value={confirmPassword}
