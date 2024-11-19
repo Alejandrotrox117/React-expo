@@ -4,27 +4,24 @@ import InputField from '@/components/form/input';
 import InputLabel from '@/components/form/InputLabel';
 import useValidation from '@/hooks/validate';
 
-interface User {
+type props = {
   name: {
     firstname: string;
     lastname: string;
   };
   id: number;
   email: string;
-}
-
-interface ProfileModalProps {
   visible: boolean;
   onClose: () => void;
-  user: User;
-  setUser: (user: User) => void;
+  user: props;
+  setUser: (user: props) => void;
 }
 
-const ProfileModal: React.FC<ProfileModalProps> = ({ visible, onClose, user, setUser }) => {
+const ProfileModal: React.FC<props> = ({ visible, onClose, user, setUser }) => {
   const { errors, validate } = useValidation();
-  const [formData, setFormData] = useState<User>(user);
+  const [formData, setFormData] = useState<props>(user);
 
-  const handleChange = (name: keyof User | keyof User['name'], value: string) => {
+  const handleChange = (name: keyof props | keyof props['name'], value: string) => {
     if (name === 'firstname' || name === 'lastname') {
       setFormData({ ...formData, name: { ...formData.name, [name]: value } });
       validate(name, value);

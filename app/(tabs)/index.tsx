@@ -47,48 +47,62 @@ const LoginScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Inicio de Sesión</Text>
-      <InputField
-        placeholder="Usuario"
-        onChangeText={(value) => {
-          setEmail(value);
-          validate('username', value);
-        }}
-        value={email}
-      />
-      {errors.username && <Text style={styles.error}>{errors.username}</Text>}
-      <InputField
-        placeholder="Contraseña"
-        onChangeText={(value) => {
-          setPassword(value);
-          validate('password', value);
-        }}
-        value={password}
-      />
-      {errors.password && <Text style={styles.error}>{errors.password}</Text>}
+      <View style={styles.inputsContainer}>
+        <View style={styles.inputContainer}>
+          <InputField
+            placeholder="Usuario"
+            onChangeText={(value) => {
+              setEmail(value);
+              validate('username', value);
+            }}
+            value={email}
+          />
+          {errors.username && <Text style={styles.error}>{errors.username}</Text>}
+        </View>
+        <View style={styles.inputContainer}>
+          <InputField
+            placeholder="Contraseña"
+            onChangeText={(value) => {
+              setPassword(value);
+              validate('password', value);
+            }}
+            value={password}
+          />
+          {errors.password && <Text style={styles.error}>{errors.password}</Text>}
+        </View>
+      </View>
       <ButtonSubmit
         title="Iniciar Sesión"
         onPress={handleLogin}
         disabled={errors.email || errors.password}
       />
-       <ExternalLink href="https://fakestoreapi.com/users">
-          <ThemedText type="link">Ver Usuarios en API</ThemedText>
-        </ExternalLink>
-        <Text>Usuario predeterminado: johnd</Text>
-        <Text>Usuario password: m38rmF$</Text>
-
+      <ExternalLink href="https://fakestoreapi.com/users">
+        <ThemedText type="link">Ver Usuarios en API</ThemedText>
+      </ExternalLink>
+      <Text>Usuario predeterminado: johnd</Text>
+      <Text>Usuario password: m38rmF$</Text>
     </View>
-  );
+);
 };
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
+    width: '100%',
   },
   title: {
     fontSize: 24,
     marginBottom: 20,
+  },
+  inputsContainer: {
+    width: '40%',
+  },
+  inputContainer: {
+    marginBottom: 15,
   },
   error: {
     color: 'red',

@@ -1,12 +1,12 @@
 import React from 'react';
 import { View, Text, StyleSheet, Switch } from 'react-native';
 
-interface ProfileSectionProps {
+type props = {
   title: string;
   children: React.ReactNode;
 }
 
-const ProfileSection: React.FC<ProfileSectionProps> = ({ title, children }) => {
+const ProfileSection: React.FC<props> = ({ title, children }) => {
   return (
     <View style={styles.sectionSmall}>
       <Text style={styles.sectionTitle}>{title}</Text>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, ScrollView, StyleSheet, Switch, Text, TouchableOpacity } from 'react-native';
+import { View, ScrollView, StyleSheet, Switch, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useUser } from '@/components/usuario/UserContext';
 import ProfileHeader from '@/components/profile/ProfileHeader';
@@ -19,8 +19,12 @@ const ProfileScreen = () => {
   const toggleNotifications = () => setNotificationsEnabled(previousState => !previousState);
 
   if (!user) {
-    return <Text>¡Debes iniciar sesión para acceder a tu perfil!</Text>
-    
+    return (
+      <View style={styles.containerCard}>
+        <ActivityIndicator size="large" color="#000000" />
+        <Text style={styles.text}>¡Debes iniciar sesión para acceder a tu perfil!</Text>
+      </View>
+    );
   }
 
   return (
@@ -84,6 +88,16 @@ const styles = StyleSheet.create({
   sectionContent: {
     fontSize: 16,
     color: '#555',
+  },
+  text: {
+    marginTop: 10,
+    fontSize: 16,
+    textAlign: 'center',
+  },
+  containerCard: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

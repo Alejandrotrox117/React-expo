@@ -1,23 +1,16 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-interface User {
+type props = {
   name: {
     firstname: string;
     lastname: string;
   };
   id: string;
   email: string;
-  phone: string;
-  address: {
-    city: string;
-    street: string;
-    number: string;
-    zipcode: string;
-  };
 }
 
-const ProfileInfo = ({ user }: { user: User }) => {
+const ProfileInfo = ({ user }: { user: props }) => {
   return (
     <View style={styles.section}>
       <Text style={styles.sectionTitle}>Información del Perfil</Text>
