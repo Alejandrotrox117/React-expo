@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Alert, Button } from 'react-native';
+import { View, Text, StyleSheet, Alert} from 'react-native';
 import InputField from '@/components/form/input';
 import ButtonSubmit from '@/components/form/button';
 import useValidation from '@/hooks/validate';
 import api from '@/services/api';
 import { useNavigation } from '@react-navigation/native';
 import { useUser } from '@/components/usuario/UserContext';
+import { ExternalLink } from '@/components/ExternalLink';
+import { ThemedText } from '@/components/ThemedText';
+
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -45,7 +48,7 @@ const LoginScreen = () => {
     <View style={styles.container}>
       <Text style={styles.title}>Inicio de Sesión</Text>
       <InputField
-        placeholder="Correo Electrónico"
+        placeholder="Usuario"
         onChangeText={(value) => {
           setEmail(value);
           validate('username', value);
@@ -67,6 +70,12 @@ const LoginScreen = () => {
         onPress={handleLogin}
         disabled={errors.email || errors.password}
       />
+       <ExternalLink href="https://fakestoreapi.com/users">
+          <ThemedText type="link">Ver Usuarios en API</ThemedText>
+        </ExternalLink>
+        <Text>Usuario predeterminado: johnd</Text>
+        <Text>Usuario password: m38rmF$</Text>
+
     </View>
   );
 };

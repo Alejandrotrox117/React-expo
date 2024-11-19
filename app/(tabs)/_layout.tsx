@@ -57,10 +57,10 @@ export default function TabLayout() {
       <Tabs.Screen
         name="registro"
         options={{
-          title: "Registro de Producto",
+          title: "Registro de Usuarios",
           tabBarIcon: ({ color }) => (
             <Ionicons
-              name="cube"
+              name="person-add"
               size={24}
               color={color}
             />
