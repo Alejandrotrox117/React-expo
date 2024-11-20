@@ -1,34 +1,45 @@
 import React, { useState } from 'react';
 import {
   View,
-  Button,
   StyleSheet,
-  Text,
-  TouchableOpacity,
+  Text
 } from 'react-native';
 import InputField from '@/components/form/input';
+import useValidation from '@/hooks/validate';
+import { useNavigation } from '@react-navigation/native';
 import ButtonSubmit from '@/components/form/button';
-import useUserFormValidation from '@/hooks/validarFormulario';
 
-const UserForm = ({ onRegisterUser, onClose }) => {
+const UserForm = () => {
   const [name, setName] = useState('');
+  const [lastname, setLastname] = useState('');
+  const [id, setId] = useState('');
   const [email, setEmail] = useState('');
   const [role, setRole] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const { errors, validateForm, clearError } = useUserFormValidation();
+  const { errors, validate } = useValidation();
+  const navigation = useNavigation();
 
   const handleSubmit = () => {
-    const isValid = validateForm({ name, email, role, password, confirmPassword });
-    if (!isValid) return;
+    const formData = { password };
+    validate('firstname', name);
+    validate('lastname', lastname);
+    validate('id', id);
+    validate('email', email);
+    validate('password', password);
+    validate('confirmPassword', confirmPassword, formData);
 
-    onRegisterUser({ name, email, role });
-    resetForm();
-    onClose();
+    if (!errors.firstname && !errors.lastname && !errors.id && !errors.email && !errors.password && !errors.confirmPassword) {
+      alert('Registro exitoso');
+      navigation.navigate('index');
+      resetForm();
+    }
   };
 
   const resetForm = () => {
     setName('');
+    setLastname('');
+    setId('');
     setEmail('');
     setRole('');
     setPassword('');
@@ -39,15 +50,38 @@ const UserForm = ({ onRegisterUser, onClose }) => {
     <View style={styles.form}>
       <Text style={styles.title}>Registrar Usuario</Text>
       <InputField
-        style={[styles.input, errors.name && styles.inputError]}
-        placeholder="Nombre completo"
+        style={[styles.input, errors.firstname && styles.inputError]}
+        placeholder="Nombres"
         value={name}
         onChangeText={(text) => {
           setName(text);
-          clearError('name');
+          validate('firstname', text);
         }}
       />
-      {errors.name && <Text style={styles.errorText}>{errors.name}</Text>}
+      {errors.firstname && <Text style={styles.errorText}>{errors.firstname}</Text>}
+
+      <InputField
+        style={[styles.input, errors.lastname && styles.inputError]}
+        placeholder="Apellidos"
+        value={lastname}
+        onChangeText={(text) => {
+          setLastname(text);
+          validate('lastname', text);
+        }}
+      />
+      {errors.lastname && <Text style={styles.errorText}>{errors.lastname}</Text>}
+
+      <InputField
+        style={[styles.input, errors.id && styles.inputError]}
+        placeholder="Cédula"
+        value={id}
+        onChangeText={(text) => {
+          setId(text);
+          validate('id', text);
+        }}
+        keyboardType="numeric"
+      />
+      {errors.id && <Text style={styles.errorText}>{errors.id}</Text>}
 
       <InputField
         style={[styles.input, errors.email && styles.inputError]}
@@ -55,23 +89,13 @@ const UserForm = ({ onRegisterUser, onClose }) => {
         value={email}
         onChangeText={(text) => {
           setEmail(text);
-          clearError('email');
+          validate('email', text);
         }}
         keyboardType="email-address"
         autoCapitalize="none"
       />
       {errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
 
-      <InputField
-        style={[styles.input, errors.role && styles.inputError]}
-        placeholder="Rol (e.g., Administrador)"
-        value={role}
-        onChangeText={(text) => {
-          setRole(text);
-          clearError('role');
-        }}
-      />
-      {errors.role && <Text style={styles.errorText}>{errors.role}</Text>}
 
       <InputField
         style={[styles.input, errors.password && styles.inputError]}
@@ -79,7 +103,7 @@ const UserForm = ({ onRegisterUser, onClose }) => {
         value={password}
         onChangeText={(text) => {
           setPassword(text);
-          clearError('password');
+          validate('password', text);
         }}
         secureTextEntry
       />
@@ -91,7 +115,7 @@ const UserForm = ({ onRegisterUser, onClose }) => {
         value={confirmPassword}
         onChangeText={(text) => {
           setConfirmPassword(text);
-          clearError('confirmPassword');
+          validate('confirmPassword', text, { password });
         }}
         secureTextEntry
       />
@@ -99,14 +123,18 @@ const UserForm = ({ onRegisterUser, onClose }) => {
         <Text style={styles.errorText}>{errors.confirmPassword}</Text>
       )}
 
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={[styles.button, styles.cancelButton]} onPress={onClose}>
-          <Text style={styles.buttonText}>Cancelar</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, styles.submitButton]} onPress={handleSubmit}>
-          <Text style={styles.buttonText}>Registrar</Text>
-        </TouchableOpacity>
-      </View>
+      <ButtonSubmit
+        title="Iniciar Sesión"
+        onPress={handleSubmit}
+        disabled={
+          errors.firstname ||
+          errors.lastname ||
+          errors.id ||
+          errors.email ||
+          errors.password ||
+          errors.confirmPassword
+        }
+      />
     </View>
   );
 };
@@ -116,9 +144,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     padding: 20,
     borderRadius: 10,
-    width: '90%',
+    width: '50%',
     alignSelf: 'center',
     elevation: 5,
+    marginTop: 50,
   },
   input: {
     borderWidth: 1,
@@ -143,27 +172,8 @@ const styles = StyleSheet.create({
     color: '#333',
     textAlign: 'center',
   },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 10,
-  },
-  button: {
-    flex: 1,
-    padding: 10,
-    borderRadius: 5,
-    alignItems: 'center',
-    marginHorizontal: 5,
-  },
-  cancelButton: {
-    backgroundColor: '#ddd',
-  },
   submitButton: {
     backgroundColor: '#28a745',
-  },
-  buttonText: {
-    color: 'white',
-    fontWeight: 'bold',
   },
 });
 
