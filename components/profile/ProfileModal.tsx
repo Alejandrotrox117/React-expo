@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Modal, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Modal, TouchableOpacity, Dimensions } from 'react-native';
 import InputField from '@/components/form/input';
 import InputLabel from '@/components/form/InputLabel';
 import useValidation from '@/hooks/validate';
+
 
 type props = {
   name: {
@@ -16,7 +17,7 @@ type props = {
   user: props;
   setUser: (user: props) => void;
 }
-
+const { width, height } = Dimensions.get('window');
 const ProfileModal: React.FC<props> = ({ visible, onClose, user, setUser }) => {
   const { errors, validate } = useValidation();
   const [formData, setFormData] = useState<props>(user);
@@ -120,7 +121,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
   modalView: {
-    width: '60%',
+    width: Math.min(width * 0.8, 400), // Máximo de 400px para pantallas grandes
+    maxHeight: Math.min(height * 0.8, 600), // Máximo de 600px para pantallas grandes
     backgroundColor: 'white',
     borderRadius: 10,
     padding: 20,
@@ -132,14 +134,16 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   modalTitle: {
-    fontSize: 20,
+    fontSize: Math.min(width * 0.05, 20), // Máximo de 20px para pantallas grandes
     fontWeight: 'bold',
     marginBottom: 20,
+    textAlign: 'center',
   },
   inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
+    flexDirection: 'column',
+    alignItems: 'stretch',
+    width: '100%',
+    marginBottom: 15,
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -149,7 +153,7 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: '#007bff',
-    padding: 10,
+    paddingVertical: 10,
     borderRadius: 5,
     alignItems: 'center',
     flex: 1,
@@ -160,11 +164,13 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: Math.min(width * 0.04, 16), // Máximo de 16px
   },
   errorText: {
     color: 'red',
-    marginLeft: 10,
+    fontSize: Math.min(width * 0.035, 14), // Máximo de 14px
+    marginTop: 5,
+    textAlign: 'center',
   },
 });
 
