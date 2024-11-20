@@ -8,7 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useUser } from '@/components/usuario/UserContext';
 import { ExternalLink } from '@/components/ExternalLink';
 import { ThemedText } from '@/components/ThemedText';
-
+import { useColorScheme } from 'react-native';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -17,6 +17,23 @@ const LoginScreen = () => {
   const navigation = useNavigation();
   const userContext = useUser();
   const setUser = userContext ? userContext.setUser : () => {};
+  const colorScheme = useColorScheme(); 
+  
+  const isDarkMode = colorScheme === 'dark';
+  const dynamicStyles = StyleSheet.create({
+    container: {
+      ...styles.container,
+      backgroundColor: isDarkMode ? '#000' : '#fff',
+    },
+    title: {
+      ...styles.title,
+      color: isDarkMode ? '#fff' : '#000',
+      fontSize: 12
+    },
+    
+    
+  });
+  
 
   const handleLogin = async () => {
     validate('email', email);
@@ -45,8 +62,8 @@ const LoginScreen = () => {
   };
  
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Inicio de Sesión</Text>
+    <View style={dynamicStyles.container}>
+      <Text style={dynamicStyles.title}>Inicio de Sesión</Text>
       <View style={styles.inputsContainer}>
         <View style={styles.inputContainer}>
           <InputField
@@ -79,8 +96,8 @@ const LoginScreen = () => {
       <ExternalLink href="https://fakestoreapi.com/users">
         <ThemedText type="link">Ver Usuarios en API</ThemedText>
       </ExternalLink>
-      <Text>Usuario predeterminado: johnd</Text>
-      <Text>Usuario password: m38rmF$</Text>
+      <Text style={dynamicStyles.title}>Usuario predeterminado: johnd</Text>
+      <Text style={dynamicStyles.title}>Usuario password: m38rmF$</Text>
     </View>
 );
 };
@@ -108,6 +125,7 @@ const styles = StyleSheet.create({
     color: 'red',
     marginBottom: 10,
   },
+  
 });
 
 export default LoginScreen;
