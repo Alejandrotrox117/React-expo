@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Alert} from 'react-native';
+import { View, Text, StyleSheet, Alert } from 'react-native';
 import InputField from '@/components/form/input';
 import ButtonSubmit from '@/components/form/button';
 import useValidation from '@/hooks/validate';
@@ -8,43 +8,45 @@ import { useNavigation } from '@react-navigation/native';
 import { useUser } from '@/components/usuario/UserContext';
 import { ExternalLink } from '@/components/ExternalLink';
 import { ThemedText } from '@/components/ThemedText';
-import { useColorScheme } from 'react-native';
 
 const LoginScreen = () => {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState(''); // Cambiado a username
   const [password, setPassword] = useState('');
   const { errors, validate } = useValidation(); 
   const navigation = useNavigation();
   const userContext = useUser();
   const setUser = userContext ? userContext.setUser : () => {};
-    
 
   const handleLogin = async () => {
-    validate('email', email);
+    validate('username', username);
     validate('password', password);
 
-    if (!errors.email && !errors.password) {
+    if (!errors.username && !errors.password) {
       try {
-        const response = await api.get('/users'); // Obtiene todos los usuarios del API
+        const response = await api.get('/users');
         if (response.status === 200) {
           const users = response.data;
-          const user = users.find((u: { username: string; password: string }) => u.username === email && u.password === password);
+          const user = users.find((u) => u.username === username && u.password === password);
           if (user) {
-            setUser(user); // Almacena el usuario en el contexto
-            alert('Éxito! Inicio de sesión exitoso');
-            navigation.navigate('profile');// Redirige a la pantalla de perfil
+            setUser(user);
+            alert('Éxito,Inicio de sesión exitoso');
+            navigation.navigate('profile');
           } else {
-            alert('Error, Credenciales incorrectas');
+            alert('Error,Credenciales incorrectas');
+            setUsername(''); // Limpia el campo de username
+            setPassword(''); // Limpia el campo de password
           }
         } else {
-          alert('Error, Error al obtener los usuarios');
+          alert('Error al obtener los usuarios');
         }
       } catch (error) {
         alert('Error, Ocurrió un error al obtener los datos');
       }
+    } else {
+      alert('Error,Por favor corrige los errores en el formulario');
     }
   };
- 
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Inicio de Sesión</Text>
@@ -53,10 +55,10 @@ const LoginScreen = () => {
           <InputField
             placeholder="Usuario"
             onChangeText={(value) => {
-              setEmail(value);
+              setUsername(value);
               validate('username', value);
             }}
-            value={email}
+            value={username}
           />
           {errors.username && <Text style={styles.error}>{errors.username}</Text>}
         </View>
@@ -75,17 +77,16 @@ const LoginScreen = () => {
       <ButtonSubmit
         title="Iniciar Sesión"
         onPress={handleLogin}
-        disabled={errors.email || errors.password}
+        disabled={errors.username || errors.password}
       />
       <ExternalLink href="https://fakestoreapi.com/users">
         <ThemedText type="link">Ver Usuarios en API</ThemedText>
       </ExternalLink>
-      <Text >Usuario predeterminado: johnd</Text>
-      <Text >Usuario password: m38rmF$</Text>
+      <Text>Usuario predeterminado: johnd</Text>
+      <Text>Usuario password: m38rmF$</Text>
     </View>
-);
+  );
 };
-
 
 const styles = StyleSheet.create({
   container: {
@@ -110,7 +111,6 @@ const styles = StyleSheet.create({
     color: 'red',
     marginBottom: 10,
   },
-  
 });
 
 export default LoginScreen;
