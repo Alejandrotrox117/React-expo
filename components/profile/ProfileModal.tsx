@@ -119,6 +119,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0.5)',
+    
   },
   modalView: {
     width: Math.min(width * 0.8, 400), // Máximo de 400px para pantallas grandes

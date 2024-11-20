@@ -17,23 +17,7 @@ const LoginScreen = () => {
   const navigation = useNavigation();
   const userContext = useUser();
   const setUser = userContext ? userContext.setUser : () => {};
-  const colorScheme = useColorScheme(); 
-  
-  const isDarkMode = colorScheme === 'dark';
-  const dynamicStyles = StyleSheet.create({
-    container: {
-      ...styles.container,
-      backgroundColor: isDarkMode ? '#000' : '#fff',
-    },
-    title: {
-      ...styles.title,
-      color: isDarkMode ? '#fff' : '#000',
-      fontSize: 12
-    },
     
-    
-  });
-  
 
   const handleLogin = async () => {
     validate('email', email);
@@ -62,8 +46,8 @@ const LoginScreen = () => {
   };
  
   return (
-    <View style={dynamicStyles.container}>
-      <Text style={dynamicStyles.title}>Inicio de Sesión</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>Inicio de Sesión</Text>
       <View style={styles.inputsContainer}>
         <View style={styles.inputContainer}>
           <InputField
@@ -96,8 +80,8 @@ const LoginScreen = () => {
       <ExternalLink href="https://fakestoreapi.com/users">
         <ThemedText type="link">Ver Usuarios en API</ThemedText>
       </ExternalLink>
-      <Text style={dynamicStyles.title}>Usuario predeterminado: johnd</Text>
-      <Text style={dynamicStyles.title}>Usuario password: m38rmF$</Text>
+      <Text >Usuario predeterminado: johnd</Text>
+      <Text >Usuario password: m38rmF$</Text>
     </View>
 );
 };
@@ -110,6 +94,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20,
     width: '100%',
+    backgroundColor: '#fff',
   },
   title: {
     fontSize: 24,
